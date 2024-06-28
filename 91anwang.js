@@ -3,7 +3,7 @@
 
 [rewrite_local]
 
-https:\/\/\S+\.m3u8\?token=[^&]+&c=https:\/\/\S+ url script-request-header https://raw.githubusercontent.com/Yu9191/Rewrite/main/m3u8/91anwang.js
+https:\/\/\S+\.m3u8\?token=[^&]+&c=https:\/\/\S+ url script-request-header https://raw.githubusercontent.com/daboluohuozhe/DABOLUO/main/91.js
 
 [mitm]
 hostname = *.cloudfront.net, *.ninghaixin.club
