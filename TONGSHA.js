@@ -10,7 +10,7 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
         //console.log("Saved notify:", notify);
         if (!notify || notify != url) {
             $.setdata(url, "m3u8");
-            $.msg("视频链接捕获成功", "", "", url);
+            $.msg("成功", "", "", url);
         }
     } catch (e) {
         console.error("An error occurred:", e);
