@@ -7,27 +7,16 @@ url = url.replace(/\/\/(?!long)[^\.]+\./, '//long.').replace(/\.m3u8/, '.m3u8');
 
 // X-Playback-Session-Id头部
 if (headers.hasOwnProperty("X-Playback-Session-Id")) {
-    try {
- const savedUrl = $.getdata("m3u8");
+    const savedUrl = $.getdata("m3u8");
+    
+    if (!savedUrl || savedUrl !== url) {
+        $.setdata(url, "m3u8");
         
-        if (!savedUrl || savedUrl !== url) {
-            $.setdata(url, "m3u8");
-            
-           const savedUrl = $.getdata("m3u8");
+        const vlcUrl = `vlc://${encodeURIComponent(url)}`;
         
-        if (!savedUrl || savedUrl !== url) {
-            $.setdata(url, "m3u8");
-            
-            // VLC 专用的正确URL格式
-            // 方案1: 直接使用vlc://协议
-            const vlcUrl1 = `vlc://${encodeURIComponent(url)}`;
-            
-            
-            
-            $.msg("🎬 VLC 播放", "点击使用 VLC 播放", url, {
-                "VLC 方案1": vlcUrl1,
-                
-            });
+        $.msg("📺 播放链接就绪", "点击使用 VLC 播放", `URL: ${url.substring(0, 30)}...`, {
+            "open-url": vlcUrl
+        });
        
         }
     } catch (e) {
