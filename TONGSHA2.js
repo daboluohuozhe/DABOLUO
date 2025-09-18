@@ -8,16 +8,38 @@ url = url.replace(/\/\/(?!long)[^\.]+\./, '//long.').replace(/\.m3u8/, '.m3u8');
 // X-Playback-Session-Id头部
 if (headers.hasOwnProperty("X-Playback-Session-Id")) {
     try {
-        const notify = $.getdata("m3u8");
-        //console.log("Saved notify:", notify);
-        if (!notify || notify != url) {
+ const savedUrl = $.getdata("m3u8");
+        
+        if (!savedUrl || savedUrl !== url) {
             $.setdata(url, "m3u8");
-            // 创建SenPlayer播放的URL
-            const senPlayerUrl = `infuse://play?url=${encodeURIComponent(url)}`;
             
-        $.msg("URL 更新通知", "", `新的 URL 是：${senPlayerUrl}`, {
-                "open-url": senPlayerUrl,
-                "media-url": senPlayerUrl
+            // 修复URL可能的问题
+            let fixedUrl = url;
+            
+            // 1. 确保URL编码正确
+            fixedUrl = encodeURI(decodeURI(fixedUrl));
+            
+            // 2. 移除可能的多余参数
+            fixedUrl = fixedUrl.replace(/(\?|&)__gda__=.*?(&|$)/, '$1');
+            fixedUrl = fixedUrl.replace(/(\?|&)__cd__=.*?(&|$)/, '$1');
+            
+            // 3. 添加必要的参数
+            if (!fixedUrl.includes('?')) {
+                fixedUrl += '?';
+            } else {
+                fixedUrl += '&';
+            }
+            fixedUrl += 't=' + Date.now(); // 避免缓存
+            
+            console.log(`原始URL: ${url}`);
+            console.log(`修复后URL: ${fixedUrl}`);
+            
+            // 使用最兼容的播放器
+            const infuseUrl = `infuse://play?url=${encodeURIComponent(fixedUrl)}`;
+            
+            $.msg("🔧 M3U8 流修复", "尝试修复播放问题", "点击使用 Infuse 播放", {
+                "open-url": infuseUrl,
+                "media-url": infuseUrl
             });
         }
     } catch (e) {
