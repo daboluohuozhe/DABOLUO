@@ -18,7 +18,7 @@ const player = "nPlayer";
 
 // nPlayer 播放器 URL Scheme
 const playerMap = {
-    "nPlayer": "nplayer://play?url=", // nPlayer 支持的 URL Scheme 格式
+    "nPlayer": "nplayer://x-callback-url/play?url=", // nPlayer 支持的 URL Scheme 格式
 };
 
 // 获取播放器 Scheme
