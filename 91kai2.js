@@ -9,7 +9,7 @@ hostname = *.cloudfront.net, *.ninghaixin.club, *.wbwxe.com, wbapi.wbwxe.com, d1
 [MITM]
 hostname =  %APPEND% *play.*.cn,long.*.cn,*.zhuoxianyx.xyz,tt2340sdf.com,*.cloudfront.net, *.ninghaixin.club, *.wbwxe.com, wbapi.wbwxe.com, d13dw8kzjnavm.cloudfront.net, hxnd.*.vip,*.tuplrf.cn
 [Script]
-瑟瑟视频 = type=http-request,pattern=^https:\/\/[^\/]*\..*\.cn\/\w+\/[a-z0-9]{32}\/[a-z0-9]{32}\.m3u8(\?.*)?,requires-body=0,script-path=https://raw.githubusercontent.com/daboluohuozhe/DABOLUO/main/TONGSHA2.js,script-update-interval=0
+瑟瑟视频 = type=http-request,pattern=^https:\/\/[^\/]*\..*\.cn\/\w+\/[a-z0-9]{32}\/[a-z0-9]{32}\.m3u8(\?.*)?,requires-body=0,script-path=https://raw.githubusercontent.com/daboluohuozhe/DABOLUO/main/TONGSHA.js,script-update-interval=0
 // 处理返回的 m3u8 地址，并跳转到 nPlayer 播放器
 function handleM3U8Request(request) {
     let url = request.url;
