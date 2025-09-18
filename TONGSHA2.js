@@ -16,7 +16,8 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
             const senPlayerUrl = `nplayer://x-callback-url/play?url=${encodeURIComponent(url)}`;
             
         $.msg("URL 更新通知", "", `新的 URL 是：${senPlayerUrl}`, {
-                "open-url": senPlayerUrl
+                "open-url": senPlayerUrl,
+                "media-url": senPlayerUrl
             });
         }
     } catch (e) {
