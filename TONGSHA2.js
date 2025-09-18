@@ -13,7 +13,7 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
         if (!notify || notify != url) {
             $.setdata(url, "m3u8");
             // 创建SenPlayer播放的URL
-            const senPlayerUrl = `SenPlayer://play?url=${encodeURIComponent(url)}`;
+            const senPlayerUrl = `nplayer://play?url=${encodeURIComponent(url)}`;
             
         $.msg("URL 更新通知", "", `新的 URL 是：${senPlayerUrl}`, {
                 "open-url": senPlayerUrl
