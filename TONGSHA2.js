@@ -6,20 +6,28 @@ url = url.replace(/\/\/(?!long)[^\.]+\./, '//long.').replace(/\.m3u8/, '.m3u8');
 // X-Playback-Session-Id头部
 if (headers.hasOwnProperty("X-Playback-Session-Id")) {
     try {
-     const savedUrl = $.getdata("m3u8");
+    const savedUrl = $.getdata("m3u8");
         
         if (!savedUrl || savedUrl !== url) {
             $.setdata(url, "m3u8");
             
-            // aplayer 协议格式
-            const aplayerUrl = `aplayer://play?url=${encodeURIComponent(url)}`;
+            // 提取认证信息
+            const authInfo = {
+                'User-Agent': headers['User-Agent'] || '',
+                'Cookie': headers['Cookie'] || '',
+                'Authorization': headers['Authorization'] || '',
+                'Referer': headers['Referer'] || ''
+            };
             
-            $.msg("🎬 aPlayer 播放", "点击使用 aPlayer 播放", url, {
+            // aplayer 带认证头
+            const aplayerUrl = `aplayer://play?url=${encodeURIComponent(url)}&headers=${encodeURIComponent(JSON.stringify(authInfo))}`;
+            
+            $.msg("🔐 aPlayer 认证播放", "包含认证信息", "点击播放", {
                 "open-url": aplayerUrl,
                 "media-url": aplayerUrl
             });
             
-            console.log(`aPlayer 播放链接: ${aplayerUrl}`);
+            console.log("认证信息:", JSON.stringify(authInfo, null, 2));
         }
     } catch (e) {
         console.error("An error occurred:", e);
