@@ -13,27 +13,30 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
         if (!savedUrl || savedUrl !== url) {
             $.setdata(url, "m3u8");
             
-            // 提取可能的认证信息
-            const authHeaders = {};
-            if (headers['Authorization']) authHeaders['Authorization'] = headers['Authorization'];
-            if (headers['Cookie']) authHeaders['Cookie'] = headers['Cookie'];
-            if (headers['User-Agent']) authHeaders['User-Agent'] = headers['User-Agent'];
+           const savedUrl = $.getdata("m3u8");
+        
+        if (!savedUrl || savedUrl !== url) {
+            $.setdata(url, "m3u8");
             
-            console.log("认证头信息:", JSON.stringify(authHeaders, null, 2));
+            // VLC 专用的正确URL格式
+            // 方案1: 直接使用vlc://协议
+            const vlcUrl1 = `vlc://${encodeURIComponent(url)}`;
             
-            // 创建带认证信息的播放URL
-            let playUrl = url;
-            if (Object.keys(authHeaders).length > 0) {
-                playUrl += (playUrl.includes('?') ? '&' : '?') + 
-                          'headers=' + encodeURIComponent(JSON.stringify(authHeaders));
-            }
+            // 方案2: 使用vlc-x-callback协议（更可靠）
+            const vlcUrl2 = `vlc-x-callback://x-callback-url/play?url=${encodeURIComponent(url)}`;
             
-            const infuseUrl = `nplayer://play?url=${encodeURIComponent(playUrl)}`;
+            // 方案3: 添加VLC特定参数
+            const vlcUrl3 = `vlc://${encodeURIComponent(url)}#--no-video-title-show`;
             
-            $.msg("🔐 带认证播放", "尝试包含认证信息", "点击播放", {
-                "open-url": infuseUrl,
-                "media-url": infuseUrl
+            $.msg("🎬 VLC 播放", "点击使用 VLC 播放", url, {
+                "VLC 方案1": vlcUrl1,
+                "VLC 方案2": vlcUrl2,
+                "VLC 方案3": vlcUrl3
             });
+            
+            console.log(`VLC 播放链接1: ${vlcUrl1}`);
+            console.log(`VLC 播放链接2: ${vlcUrl2}`);
+            console.log(`VLC 播放链接3: ${vlcUrl3}`);
         }
     } catch (e) {
         console.error("An error occurred:", e);
