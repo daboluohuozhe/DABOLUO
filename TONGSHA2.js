@@ -15,12 +15,9 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
             // 创建SenPlayer播放的URL
             const senPlayerUrl = `SenPlayer://play?url=${encodeURIComponent(url)}`;
             
-            // 发送通知，显示URL
-            $.msg("URL 更新通知", "", `新的 URL 是：${senPlayerUrl}`);
-            
-            // 跳转到SenPlayer播放器播放
-            $openURL(senPlayerUrl);
-
+        $.msg("URL 更新通知", "", `新的 URL 是：${senPlayerUrl}`, {
+                "open-url": senPlayerUrl
+            });
         }
     } catch (e) {
         console.error("An error occurred:", e);
