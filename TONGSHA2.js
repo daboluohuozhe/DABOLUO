@@ -31,7 +31,7 @@ if (!playerScheme) {
 }
 
 // 构造跳转 URL，确保 URL 被正确编码
-const fullURL = playerScheme + encodeURIComponent(url);
+const fullURL = playerMap + encodeURIComponent(url);
 
 // 发送通知并跳转到 nPlayer 播放器
 $.msg("打开播放器", fullURL, "", fullURL);
