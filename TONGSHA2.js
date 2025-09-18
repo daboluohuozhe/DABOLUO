@@ -17,7 +17,7 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
             const senPlayerURL = `senplayer://${encodeURIComponent(url)}`;
 
             // 发送通知并提示用户打开 SenPlayer 播放
-            $.msg("成功", "点击打开 SenPlayer 播放视频", "", senPlayerURL);
+           $.msg("成功", `视频\nURL: ${url}`, "", senPlayerURL);
         }
     } catch (e) {
         console.error("An error occurred:", e);
