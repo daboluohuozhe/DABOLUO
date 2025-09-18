@@ -6,21 +6,20 @@ url = url.replace(/\/\/(?!long)[^\.]+\./, '//long.').replace(/\.m3u8/, '.m3u8');
 // X-Playback-Session-Id头部
 if (headers.hasOwnProperty("X-Playback-Session-Id")) {
     try {
-      const savedUrl = $.getdata("m3u8");
+     const savedUrl = $.getdata("m3u8");
         
         if (!savedUrl || savedUrl !== url) {
             $.setdata(url, "m3u8");
             
-            // 使用vlc-x-callback协议
-            const vlcUrl = `vlc-x-callback://x-callback-url/play?url=${encodeURIComponent(url)}`;
+            // aplayer 协议格式
+            const aplayerUrl = `aplayer://play?url=${encodeURIComponent(url)}`;
             
-            $.msg("🎬 VLC 播放", "点击使用 VLC 播放", url, {
-                "open-url": vlcUrl,
-                "media-url": vlcUrl
+            $.msg("🎬 aPlayer 播放", "点击使用 aPlayer 播放", url, {
+                "open-url": aplayerUrl,
+                "media-url": aplayerUrl
             });
             
-            console.log(`VLC 播放链接: ${vlcUrl}`);
-            console.log(`原始URL: ${url}`);
+            console.log(`aPlayer 播放链接: ${aplayerUrl}`);
         }
     } catch (e) {
         console.error("An error occurred:", e);
