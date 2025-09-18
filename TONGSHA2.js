@@ -13,10 +13,10 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
         if (!notify || notify != url) {
             $.setdata(url, "m3u8");
             // 创建SenPlayer播放的URL
-            const senPlayerUrl = `SenPlayer://x-callback-url/play?url=${encodeURIComponent(url)}`;
+            const senPlayerUrl = `SenPlayer://play?url=${encodeURIComponent(url)}`;
             
             // 发送通知，显示URL
-            $.msg("URL 更新通知", "", `新的 URL 是：${url}`);
+            $.msg("URL 更新通知", "", `新的 URL 是：${senPlayerUrl}`);
             
             // 跳转到SenPlayer播放器播放
             $openURL(senPlayerUrl);
