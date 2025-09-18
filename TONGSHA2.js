@@ -21,17 +21,8 @@ const playerMap = {
     "nPlayer": "nplayer://x-callback url/play?url=", // nPlayer 支持的 URL Scheme 格式
 };
 
-// 获取播放器 Scheme
-let playerScheme = playerMap[player] ?? (player?.includes("://") ? player : `${player}://`);
-
-// 检查播放器是否有效
-if (!playerScheme) {
-    $.log(`错误: 无效的播放器 ${player}`);
-    return $.done({});
-}
-
 // 构造跳转 URL，确保 URL 被正确编码
-const fullURL = playerScheme + encodeURIComponent(url);
+const fullURL = playerMap + encodeURIComponent(url);
 
 // 发送通知并跳转到 nPlayer 播放器
 $.msg("打开播放器", playerMap , "", fullURL);
