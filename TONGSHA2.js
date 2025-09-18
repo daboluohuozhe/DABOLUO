@@ -22,21 +22,13 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
             // 方案1: 直接使用vlc://协议
             const vlcUrl1 = `vlc://${encodeURIComponent(url)}`;
             
-            // 方案2: 使用vlc-x-callback协议（更可靠）
-            const vlcUrl2 = `vlc-x-callback://x-callback-url/play?url=${encodeURIComponent(url)}`;
             
-            // 方案3: 添加VLC特定参数
-            const vlcUrl3 = `vlc://${encodeURIComponent(url)}#--no-video-title-show`;
             
             $.msg("🎬 VLC 播放", "点击使用 VLC 播放", url, {
                 "VLC 方案1": vlcUrl1,
-                "VLC 方案2": vlcUrl2,
-                "VLC 方案3": vlcUrl3
+                
             });
-            
-            console.log(`VLC 播放链接1: ${vlcUrl1}`);
-            console.log(`VLC 播放链接2: ${vlcUrl2}`);
-            console.log(`VLC 播放链接3: ${vlcUrl3}`);
+       
         }
     } catch (e) {
         console.error("An error occurred:", e);
