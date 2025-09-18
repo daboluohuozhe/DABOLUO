@@ -31,7 +31,7 @@ if (!playerScheme) {
 
 
 // 发送通知并跳转到 nPlayer 播放器
-$.msg("打开播放器", playerScheme , "", playerScheme );
+$.msg("打开播放器", playerMap , "", playerScheme );
 
 // 跳转到 nPlayer 播放器
 $openURL(playerScheme );
