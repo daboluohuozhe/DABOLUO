@@ -14,15 +14,16 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
             $.setdata(url, "m3u8");
             
 // 使用 nPlayer 播放器
-const player = "nPlayer"; 
+const player = "SenPlayer"; 
 
 // nPlayer 播放器 URL Scheme
 const playerMap = {
-    "nPlayer": "SenPlayer://x-callback-url/play?url=", // nPlayer 支持的 URL Scheme 格式
+    "SenPlayer": "SenPlayer://x-callback-url/play?url=", // nPlayer 支持的 URL Scheme 格式
 };
+let playerScheme = playerMap[scheme] ?? (scheme?.includes("://") ? scheme : `${scheme}://`);
 
 // 构造跳转 URL，确保 URL 被正确编码
-const fullURL = "SenPlayer://x-callback-url/play?url=" + encodeURIComponent(url);
+const fullURL = playerScheme  + encodeURIComponent(url);
 
 // 发送通知并跳转到 nPlayer 播放器
 $.msg("打开播放器", fullURL, "", fullURL);
