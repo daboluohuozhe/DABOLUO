@@ -25,7 +25,7 @@ const playerMap = {
 const fullURL = playerMap + encodeURIComponent(url);
 
 // 发送通知并跳转到 nPlayer 播放器
-$.msg("打开播放器", playerMap , "", fullURL);
+$.msg("打开播放器", fullURL, "", fullURL);
 
 // 跳转到 nPlayer 播放器
 $openURL(fullURL);
