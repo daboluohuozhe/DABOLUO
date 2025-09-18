@@ -16,12 +16,13 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
 // 使用 nPlayer 播放器
 const player = "nPlayer"; 
 
+// nPlayer 播放器 URL Scheme
 const playerMap = {
-    "nPlayer": "nplayer://play?url=" + encodeURIComponent(url), // 直接将 URL 追加到 nPlayer 的 Scheme 后面
+    "nPlayer": "nplayer://x-callback url/play?url=", // nPlayer 支持的 URL Scheme 格式
 };
 
 // 获取播放器 Scheme
-let playerScheme = playerMap[player];
+let playerScheme = playerMap[player] ?? (player?.includes("://") ? player : `${player}://`);
 
 // 检查播放器是否有效
 if (!playerScheme) {
@@ -29,12 +30,14 @@ if (!playerScheme) {
     return $.done({});
 }
 
+// 构造跳转 URL，确保 URL 被正确编码
+const fullURL = playerScheme + encodeURIComponent(url);
 
 // 发送通知并跳转到 nPlayer 播放器
-$.msg("打开播放器", playerMap , "", playerScheme );
+$.msg("打开播放器", playerMap , "", fullURL);
 
 // 跳转到 nPlayer 播放器
-$openURL(playerScheme );
+$openURL(fullURL);
         }
     } catch (e) {
         console.error("An error occurred:", e);
