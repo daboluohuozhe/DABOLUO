@@ -12,24 +12,15 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
         //console.log("Saved notify:", notify);
         if (!notify || notify != url) {
             $.setdata(url, "m3u8");
+            // 创建SenPlayer播放的URL
+            const senPlayerUrl = `SenPlayer://x-callback-url/play?url=${encodeURIComponent(url)}`;
             
-// 使用 nPlayer 播放器
-const player = "SenPlayer"; 
+            // 发送通知，显示URL
+            $.msg("URL 更新通知", "", `新的 URL 是：${url}`);
+            
+            // 跳转到SenPlayer播放器播放
+            $openURL(senPlayerUrl);
 
-// nPlayer 播放器 URL Scheme
-const playerMap = {
-    "SenPlayer": "SenPlayer://x-callback-url/play?url=", // nPlayer 支持的 URL Scheme 格式
-};
-let playerScheme = playerMap[scheme] ?? (scheme?.includes("://") ? scheme : `${scheme}://`);
-
-// 构造跳转 URL，确保 URL 被正确编码
-const fullURL = playerScheme  + encodeURIComponent(url);
-
-// 发送通知并跳转到 nPlayer 播放器
-$.msg("打开播放器", fullURL, "", fullURL);
-
-// 跳转到 nPlayer 播放器
-$openURL(fullURL);
         }
     } catch (e) {
         console.error("An error occurred:", e);
