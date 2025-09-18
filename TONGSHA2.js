@@ -18,11 +18,11 @@ const player = "nPlayer";
 
 // nPlayer 播放器 URL Scheme
 const playerMap = {
-    "nPlayer": "nplayer://x-callback url/play?url=", // nPlayer 支持的 URL Scheme 格式
+    "nPlayer": "SenPlayer://x-callback-url/play?url=", // nPlayer 支持的 URL Scheme 格式
 };
 
 // 构造跳转 URL，确保 URL 被正确编码
-const fullURL = "nplayer://x-callback url/play?url=" + encodeURIComponent(url);
+const fullURL = "SenPlayer://x-callback-url/play?url=" + encodeURIComponent(url);
 
 // 发送通知并跳转到 nPlayer 播放器
 $.msg("打开播放器", fullURL, "", fullURL);
