@@ -1,6 +1,7 @@
 
 const $ = new Env("开始喽");
 let url = $request.url, headers = $request.headers;
+
 // yuheng基础上更改保留auth_key
 url = url.replace(/\/\/(?!long)[^\.]+\./, '//long.').replace(/\.m3u8/, '.m3u8');
 
@@ -12,11 +13,11 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
         if (!notify || notify != url) {
             $.setdata(url, "m3u8");
             
-            // 这里添加跳转到 nPlayer 的功能
-            const nPlayerURL = `nplayer://${url}`; // nPlayer的URL Scheme
+            // 生成用于打开 SenPlayer 的 URL Scheme
+            const senPlayerURL = `senplayer://${encodeURIComponent(url)}`;
 
-            // 发送通知并包含跳转 URL
-            $.msg("成功", "点击打开 nPlayer 播放", "", nPlayerURL);
+            // 发送通知并提示用户打开 SenPlayer 播放
+            $.msg("成功", "点击打开 SenPlayer 播放视频", "", senPlayerURL);
         }
     } catch (e) {
         console.error("An error occurred:", e);
