@@ -13,31 +13,24 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
         if (!savedUrl || savedUrl !== url) {
             $.setdata(url, "m3u8");
             
-            // 修复URL可能的问题
-            let fixedUrl = url;
+            // 提取可能的认证信息
+            const authHeaders = {};
+            if (headers['Authorization']) authHeaders['Authorization'] = headers['Authorization'];
+            if (headers['Cookie']) authHeaders['Cookie'] = headers['Cookie'];
+            if (headers['User-Agent']) authHeaders['User-Agent'] = headers['User-Agent'];
             
-            // 1. 确保URL编码正确
-            fixedUrl = encodeURI(decodeURI(fixedUrl));
+            console.log("认证头信息:", JSON.stringify(authHeaders, null, 2));
             
-            // 2. 移除可能的多余参数
-            fixedUrl = fixedUrl.replace(/(\?|&)__gda__=.*?(&|$)/, '$1');
-            fixedUrl = fixedUrl.replace(/(\?|&)__cd__=.*?(&|$)/, '$1');
-            
-            // 3. 添加必要的参数
-            if (!fixedUrl.includes('?')) {
-                fixedUrl += '?';
-            } else {
-                fixedUrl += '&';
+            // 创建带认证信息的播放URL
+            let playUrl = url;
+            if (Object.keys(authHeaders).length > 0) {
+                playUrl += (playUrl.includes('?') ? '&' : '?') + 
+                          'headers=' + encodeURIComponent(JSON.stringify(authHeaders));
             }
-            fixedUrl += 't=' + Date.now(); // 避免缓存
             
-            console.log(`原始URL: ${url}`);
-            console.log(`修复后URL: ${fixedUrl}`);
+            const infuseUrl = `infuse://play?url=${encodeURIComponent(playUrl)}`;
             
-            // 使用最兼容的播放器
-            const infuseUrl = `infuse://play?url=${encodeURIComponent(fixedUrl)}`;
-            
-            $.msg("🔧 M3U8 流修复", "尝试修复播放问题", "点击使用 Infuse 播放", {
+            $.msg("🔐 带认证播放", "尝试包含认证信息", "点击播放", {
                 "open-url": infuseUrl,
                 "media-url": infuseUrl
             });
