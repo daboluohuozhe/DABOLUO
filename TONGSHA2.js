@@ -13,15 +13,15 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
         if (!notify || notify != url) {
             $.setdata(url, "m3u8");
             
-         // 硬编码为使用 SenPlayer 播放器
-const player = "SenPlayer"; // 直接指定使用 SenPlayer 播放器
+// 使用 nPlayer 播放器
+const player = "nPlayer"; 
 
-// 播放器映射表
+// nPlayer 播放器 URL Scheme
 const playerMap = {
-    "SenPlayer": "SenPlayer://x-callback-url/play?url=",
+    "nPlayer": "nplayer://play?url=", // nPlayer 支持的 URL Scheme 格式
 };
 
-// 获取 SenPlayer 对应的 URL Scheme
+// 获取播放器 Scheme
 let playerScheme = playerMap[player] ?? (player?.includes("://") ? player : `${player}://`);
 
 // 检查播放器是否有效
@@ -30,13 +30,13 @@ if (!playerScheme) {
     return $.done({});
 }
 
-// 构造最终的跳转 URL
+// 构造跳转 URL，确保 URL 被正确编码
 const fullURL = playerScheme + encodeURIComponent(url);
 
-// 发送通知并跳转
-$.msg("打开播放器", `将使用 SenPlayer 播放视频`, "", fullURL);
+// 发送通知并跳转到 nPlayer 播放器
+$.msg("打开播放器", fullURL, "", fullURL);
 
-// 跳转到 SenPlayer 播放器
+// 跳转到 nPlayer 播放器
 $openURL(fullURL);
         }
     } catch (e) {
