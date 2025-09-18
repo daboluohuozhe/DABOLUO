@@ -28,7 +28,7 @@ if (headers.hasOwnProperty("X-Playback-Session-Id")) {
                           'headers=' + encodeURIComponent(JSON.stringify(authHeaders));
             }
             
-            const infuseUrl = `infuse://play?url=${encodeURIComponent(playUrl)}`;
+            const infuseUrl = `nplayer://play?url=${encodeURIComponent(playUrl)}`;
             
             $.msg("🔐 带认证播放", "尝试包含认证信息", "点击播放", {
                 "open-url": infuseUrl,
