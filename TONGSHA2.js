@@ -1,27 +1,27 @@
-const $ = new Env("M3U8 aPlayer 终极方案");
-let url = $request.url;
-let headers = $request.headers;
-
-// 处理 URL
+const $ = new Env("开始喽");
+let url = $request.url, headers = $request.headers;
+// yuheng基础上更改保留auth_key
 url = url.replace(/\/\/(?!long)[^\.]+\./, '//long.').replace(/\.m3u8/, '.m3u8');
-
-if (headers && headers["X-Playback-Session-Id"]) {
+// X-Playback-Session-Id头部
+if (headers.hasOwnProperty("X-Playback-Session-Id")) {
     try {
         const savedUrl = $.getdata("m3u8");
         
         if (!savedUrl || savedUrl !== url) {
             $.setdata(url, "m3u8");
             
-            // 尝试所有已知的 aplayer 协议变体
-            const allAttempts = {
-                "aPlayer 变体3": `aplayer://play/${encodeURIComponent(url)}`,
-                
-            };
+            // aplayer 播放协议
+            const aplayerUrl = `aplayer://play?url=${encodeURIComponent(url)}`;
             
-            $.msg("🔍 aPlayer 协议探测", "请逐个测试每种协议", "找到可用的跳转方式", allAttempts);
+            $.msg("🎬 aPlayer 播放", "点击使用 aPlayer 播放", url, {
+                "open-url": aplayerUrl,
+                "media-url": aplayerUrl
+            });
+            
+            console.log("aPlayer 播放链接:", aplayerUrl);
         }
     } catch (e) {
-        console.error("错误:", e);
+        console.error("An error occurred:", e);
     }
 }
 
