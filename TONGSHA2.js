@@ -6,18 +6,14 @@ url = url.replace(/\/\/(?!long)[^\.]+\./, '//long.').replace(/\.m3u8/, '.m3u8');
 if (headers.hasOwnProperty("X-Playback-Session-Id")) {
     try {
         const notify = $.getdata("m3u8");
+        //console.log("Saved notify:", notify);
         if (!notify || notify != url) {
+$tool.copy(url);
             $.setdata(url, "m3u8");
-            // 多种方式尝试复制到剪贴板
-            if (typeof $tool !== 'undefined' && $tool.copy) {
-                $tool.copy(url);
-            } else {
-                $response.body = url;
-            }
-            $.msg("成功", "URL已复制到剪贴板", "", url);
+            $.msg("成功", "", "", url);
         }
     } catch (e) {
-        console.error("发生错误:", e);
+        console.error("An error occurred:", e);
     }
 }
 
