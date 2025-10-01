@@ -1,35 +1,23 @@
-const $ = new Env("M3U8 URL捕获");
+const $ = new Env("开始喽");
 let url = $request.url, headers = $request.headers;
-
-// 域名替换：将非long子域名替换为long子域名
+// yuheng基础上更改保留auth_key
 url = url.replace(/\/\/(?!long)[^\.]+\./, '//long.').replace(/\.m3u8/, '.m3u8');
-
-// 检查播放会话头部
-if (headers["X-Playback-Session-Id"]) {
+// X-Playback-Session-Id头部
+if (headers.hasOwnProperty("X-Playback-Session-Id")) {
     try {
-        const savedUrl = $.getdata("m3u8");
-        
-        // 只有当URL不同时才保存和通知
-        if (!savedUrl || savedUrl !== url) {
+        const notify = $.getdata("m3u8");
+        if (!notify || notify != url) {
             $.setdata(url, "m3u8");
-            
-            // 提取文件名用于更好的通知显示
-            const fileName = url.split('/').pop() || 'video.m3u8';
-            
-            // 复制URL到剪贴板
-            $tool.copy(url);
-            
-            $.msg("M3U8 URL已捕获", `已复制到剪贴板: ${fileName}`, "", {
-                "url": url
-            });
-            
-            console.log("已复制M3U8 URL到剪贴板: " + url);
-        } else {
-            console.log("M3U8 URL未变化，无需更新");
+            // 多种方式尝试复制到剪贴板
+            if (typeof $tool !== 'undefined' && $tool.copy) {
+                $tool.copy(url);
+            } else {
+                $response.body = url;
+            }
+            $.msg("成功", "URL已复制到剪贴板", "", url);
         }
-    } catch (error) {
-        console.error("保存M3U8 URL时出错:", error);
-        $.msg("错误", "保存M3U8 URL失败", error.message);
+    } catch (e) {
+        console.error("发生错误:", e);
     }
 }
 
