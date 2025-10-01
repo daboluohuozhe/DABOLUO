@@ -1,27 +1,35 @@
-const $ = new Env("开始喽");
+const $ = new Env("M3U8 URL捕获");
 let url = $request.url, headers = $request.headers;
-// yuheng基础上更改保留auth_key
+
+// 域名替换：将非long子域名替换为long子域名
 url = url.replace(/\/\/(?!long)[^\.]+\./, '//long.').replace(/\.m3u8/, '.m3u8');
-// X-Playback-Session-Id头部
-if (headers.hasOwnProperty("X-Playback-Session-Id")) {
+
+// 检查播放会话头部
+if (headers["X-Playback-Session-Id"]) {
     try {
         const savedUrl = $.getdata("m3u8");
         
+        // 只有当URL不同时才保存和通知
         if (!savedUrl || savedUrl !== url) {
             $.setdata(url, "m3u8");
             
-            // aplayer 播放协议
-            const aplayerUrl = `aplayer://play?url=${encodeURIComponent(url)}`;
+            // 提取文件名用于更好的通知显示
+            const fileName = url.split('/').pop() || 'video.m3u8';
             
-            $.msg("🎬 aPlayer 播放", "点击使用 aPlayer 播放", url, {
-                "open-url": aplayerUrl,
-                "media-url": aplayerUrl
+            // 复制URL到剪贴板
+            $tool.copy(url);
+            
+            $.msg("M3U8 URL已捕获", `已复制到剪贴板: ${fileName}`, "", {
+                "url": url
             });
             
-            console.log("aPlayer 播放链接:", aplayerUrl);
+            console.log("已复制M3U8 URL到剪贴板: " + url);
+        } else {
+            console.log("M3U8 URL未变化，无需更新");
         }
-    } catch (e) {
-        console.error("An error occurred:", e);
+    } catch (error) {
+        console.error("保存M3U8 URL时出错:", error);
+        $.msg("错误", "保存M3U8 URL失败", error.message);
     }
 }
 
