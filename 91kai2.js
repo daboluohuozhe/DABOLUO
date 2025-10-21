@@ -1,3 +1,12 @@
+/*
 [rewrite_local]
-# 拦截所有m3u8链接并发送通知
-^https?:\/\/[^\/]+\.m3u8.*$ url script-response-body https://raw.githubusercontent.com/daboluohuozhe/DABOLUO/refs/heads/main/TONGSHA2.js
+
+https:\/\/\S+\.m3u8\?token=[^&]+&c=https:\/\/\S+ url script-request-header https://raw.githubusercontent.com/daboluohuozhe/DABOLUO/main/91wo.js
+
+[mitm]
+hostname = *.cloudfront.net, *.ninghaixin.club, *.wbwxe.com, wbapi.wbwxe.com, d13dw8kzjnavm.cloudfront.net, hxnd.*.vip, %APPEND% *play.*.cn,long.*.cn
+*/
+[MITM]
+hostname =  %APPEND% *play.*.cn,long.*.cn,*.zhuoxianyx.xyz,tt2340sdf.com,*.cloudfront.net, *.ninghaixin.club, *.wbwxe.com, wbapi.wbwxe.com, d13dw8kzjnavm.cloudfront.net, hxnd.*.vip,*.tuplrf.cn
+[Script]
+瑟瑟视频 = type=http-request,pattern=^https:\/\/[^\/]*\..*\.(?:cn\/\w+\/[a-z0-9]{32}\/[a-z0-9]{32}|net\/api\/app\/media\/h5\/m3u8\/v3\/sp\/et\/f3\/t0\/h3\/[a-z0-9]{32})\.m3u8(?:\?.*)?,requires-body=0,script-path=https://raw.githubusercontent.com/daboluohuozhe/DABOLUO/main/TONGSHA2.js,script-update-interval=0
