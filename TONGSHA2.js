@@ -1,6 +1,6 @@
-
+const $ = new Env("开始喽");
 let url = $request.url, headers = $request.headers;
-const $ = new Env("开始喽"+url);
+console.log(url);
 // X-Playback-Session-Id头部
 if (headers.hasOwnProperty("X-Playback-Session-Id")) {
     $.msg("成功", "点击复制链接", "", {
