@@ -1,26 +1,20 @@
+
 const $ = new Env("开始喽");
 let url = $request.url, headers = $request.headers;
-console.log(url);
+// yuheng基础上更改保留auth_key
+url = url.replace(/\/\/(?!long)[^\.]+\./, '//long.').replace(/\.m3u8/, '.m3u8');
 // X-Playback-Session-Id头部
 if (headers.hasOwnProperty("X-Playback-Session-Id")) {
-    $.msg("成功", "点击复制链接", "", {
-        "url": url
-    }, (data) => {
-        // iOS 剪贴板兼容处理
-        if (typeof $?.copy === "function") {
-            $.copy(url);
-            $.notify("已复制", "链接已复制到剪贴板", "");
-        } else if (typeof $?.setclipboard === "function") {
-            $.setclipboard(url);
-            $.notify("已复制", "链接已复制到剪贴板", "");
-        } else if (typeof $rocket !== "undefined") {
-            // Surge 兼容
-            $rocket.copy(url);
-            $.notify("已复制", "链接已复制到剪贴板", "");
-        } else {
-            $.notify("复制失败", "请手动复制链接", url);
+    try {
+        const notify = $.getdata("m3u8");
+        //console.log("Saved notify:", notify);
+        if (!notify || notify != url) {
+            $.setdata(url, "m3u8");
+            $.msg("成功", "", "", url);
         }
-    });
+    } catch (e) {
+        console.error("An error occurred:", e);
+    }
 }
 
 $.done({});
