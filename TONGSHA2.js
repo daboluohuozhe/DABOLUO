@@ -3,20 +3,24 @@ const $ = new Env("开始喽");
 let url = $request.url, headers = $request.headers;
 // yuheng基础上更改保留auth_key
 url = url.replace(/\/\/(?!long)[^\.]+\./, '//long.').replace(/\.m3u8/, '.m3u8');
+
 // X-Playback-Session-Id头部
 if (headers.hasOwnProperty("X-Playback-Session-Id")) {
     try {
-        const notify = $.getdata("m3u8");
-        //console.log("Saved notify:", notify);
-        if (!notify || notify != url) {
-            $.setdata(url, "m3u8");
+        const notifiedUrls = JSON.parse($.getdata("notified_urls") || "[]");
+        
+        if (!notifiedUrls.includes(url)) {
+            // 记录已通知的URL
+            notifiedUrls.push(url);
+            $.setdata(JSON.stringify(notifiedUrls), "notified_urls");
+            
+            // 发送通知
             $.msg("成功", "", "", url);
         }
     } catch (e) {
         console.error("An error occurred:", e);
     }
 }
-
 $.done({});
 
 
